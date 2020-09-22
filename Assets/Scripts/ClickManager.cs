@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class ClickManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private GameObject clickedObject;
 
     // Update is called once per frame
     void Update()
@@ -19,10 +15,18 @@ public class ClickManager : MonoBehaviour
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-            if (hit.collider != null)
+            if (hit.collider != null && hit.collider.name.Contains("Waypoint"))
             {
-                Debug.Log(hit.collider.gameObject.name);
+                clickedObject = hit.collider.gameObject;
+                //Debug.Log(clickedObject.name);
             }
+            else
+                clickedObject = null;
         }
+    }
+
+    public GameObject GetWaypoint()
+    {
+        return clickedObject;
     }
 }

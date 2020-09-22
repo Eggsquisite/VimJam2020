@@ -822,7 +822,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &1935750471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -835,9 +835,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fb843d297e703f43a07dc80267c8374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypoints:
-  - {fileID: 2044248216}
-  - {fileID: 1419425280}
+  cm: {fileID: 2059502199}
+  moveSpeed: 5
+  maxSpeed: 8
 --- !u!1 &2019296897
 GameObject:
   m_ObjectHideFlags: 0
