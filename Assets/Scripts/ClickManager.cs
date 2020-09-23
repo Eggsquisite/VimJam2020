@@ -32,7 +32,6 @@ public class ClickManager : MonoBehaviour
                     clickedObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
                     //clickedObject.GetComponent<SpriteRenderer>().enabled = false;
                     player.UpdateWaypoint(clickedObject);
-                    Debug.Log("clicked object: " + clickedObject.name);
                 }
                 else { 
                     clickedObject = null;

@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
     private bool waypointSet, facingRight;
     public float moveSpeed;
 
+    [Header("Adjustable Stats")]
+    public float bonusMoveSpeed;
 
     // Start is called before the first frame update
     void Start()
@@ -127,7 +129,7 @@ public class Player : MonoBehaviour
 
     void Movement()
     {
-        rb.MovePosition(Vector2.MoveTowards(transform.position, setWaypoint.transform.position, moveSpeed * Time.deltaTime));
+        rb.MovePosition(Vector2.MoveTowards(transform.position, setWaypoint.transform.position, (moveSpeed + bonusMoveSpeed) * Time.deltaTime));
     }
 
     public void UpdateWaypoint(GameObject newWaypoint)
