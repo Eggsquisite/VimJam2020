@@ -788,9 +788,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fb843d297e703f43a07dc80267c8374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cm: {fileID: 2059502199}
-  moveSpeed: 2
   offset: {x: 0, y: 0, z: 0}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  moveSpeed: 2
+  checkDistance: 2
 --- !u!1 &2019296897
 GameObject:
   m_ObjectHideFlags: 0
