@@ -4,28 +4,37 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Components")]
     private Rigidbody2D rb;
+    private Animator anim;
 
-    public Vector3 offset;
+    [Header("Combat")]
     public LayerMask enemyLayer;
-    public float moveSpeed, checkDistance;
-
-    private GameObject currentWaypoint, setWaypoint;
     private RaycastHit2D enemyInSight;
-    private bool waypointSet, readyToAttack, facingRight;
+    private bool readyToAttack, attackReady;
+    public float checkDistance, attackCooldown;
+
+    [Header("Movement")]
+    private GameObject currentWaypoint, setWaypoint;
     private float oldPos;
+    private bool waypointSet, facingRight;
+    public float moveSpeed;
+
 
     // Start is called before the first frame update
     void Start()
     {
         if (rb == null) rb = GetComponent<Rigidbody2D>();
+        if (anim == null) anim = GetComponent<Animator>();
+
+        attackReady = true;
         oldPos = transform.position.x;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if (readyToAttack)
+        if (readyToAttack)
             CheckEnemy();
 
         Flip();
@@ -46,8 +55,26 @@ public class Player : MonoBehaviour
 
         if (enemyInSight.collider != null)
         {
+            anim.SetBool("enemyInSight", true);
             Debug.Log("Hit enemy: " + enemyInSight.collider.name);
+
+            if (attackReady)
+            {
+                attackReady = false;
+
+                anim.ResetTrigger("attack");
+                anim.SetTrigger("attack");
+                Invoke("ResetAttack", attackCooldown);
+            }
         }
+        else
+            anim.SetBool("enemyInSight", false);
+    }
+
+    private void ResetAttack()
+    {
+        attackReady = true;
+        Debug.Log("Attack ready...");
     }
 
     private void Flip()
