@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     [Header("Combat")]
     public LayerMask enemyLayer;
     private RaycastHit2D enemyInSight;
-    private bool readyToAttack, attackReady;
+    private bool readyToAttack, attackReady, attacking;
     public float checkDistance, attackCooldown;
 
     [Header("Movement")]
@@ -34,10 +34,15 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (readyToAttack)
+        //if (readyToAttack)
             CheckEnemy();
 
         Flip();
+    }
+    private void FixedUpdate()
+    {
+        if (!attacking)
+            MoveToWaypoint();
     }
 
     private void CheckEnemy()
@@ -62,6 +67,7 @@ public class Player : MonoBehaviour
             {
                 attackReady = false;
 
+                attacking = true;
                 anim.ResetTrigger("attack");
                 anim.SetTrigger("attack");
                 Invoke("ResetAttack", attackCooldown);
@@ -73,6 +79,7 @@ public class Player : MonoBehaviour
 
     private void ResetAttack()
     {
+        attacking = false;
         attackReady = true;
         Debug.Log("Attack ready...");
     }
@@ -97,10 +104,6 @@ public class Player : MonoBehaviour
         oldPos = transform.position.x;
     }
 
-    private void FixedUpdate()
-    {
-        MoveToWaypoint();
-    }
 
     void MoveToWaypoint()
     {
@@ -127,6 +130,7 @@ public class Player : MonoBehaviour
     void Movement()
     {
         rb.MovePosition(Vector2.MoveTowards(transform.position, setWaypoint.transform.position, moveSpeed * Time.deltaTime));
+        anim.SetFloat("movement", Mathf.Sign(rb.velocity.x));
     }
 
     public void UpdateWaypoint(GameObject newWaypoint)

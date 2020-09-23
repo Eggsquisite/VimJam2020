@@ -791,8 +791,8 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 512
-  checkDistance: 2
-  attackCooldown: 2
+  checkDistance: 1
+  attackCooldown: 3
   moveSpeed: 2
 --- !u!1 &2019296897
 GameObject:
