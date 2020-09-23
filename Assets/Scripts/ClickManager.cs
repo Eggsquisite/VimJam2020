@@ -18,22 +18,20 @@ public class ClickManager : MonoBehaviour
 
             hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
 
-            if (hit.collider != null && hit.collider.tag == "Waypoint")
+            if (hit.collider != null)
             {
-                if (clickedObject != null)
-                    clickedObject.GetComponent<SpriteRenderer>().enabled = true;
+                if (hit.collider.tag == "Waypoint")
+                {
+                    if (clickedObject != null)
+                        clickedObject.GetComponent<SpriteRenderer>().enabled = true;
 
-                clickedObject = hit.collider.gameObject;
-                clickedObject.GetComponent<SpriteRenderer>().enabled = false;
-                player.UpdateWaypoint(clickedObject);
-                //Debug.Log(clickedObject.name);
-            }
-            else
-            {
-                if (clickedObject != null)
-                    clickedObject.GetComponent<SpriteRenderer>().enabled = true;
-
-                clickedObject = null;
+                    clickedObject = hit.collider.gameObject;
+                    clickedObject.GetComponent<SpriteRenderer>().enabled = false;
+                    player.UpdateWaypoint(clickedObject);
+                    //Debug.Log(clickedObject.name);
+                }
+                else
+                    clickedObject = null;
             }
         }
     }
