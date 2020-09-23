@@ -836,8 +836,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cm: {fileID: 2059502199}
-  moveSpeed: 5
-  maxSpeed: 8
+  moveSpeed: 1
+  maxSpeed: 5
 --- !u!1 &2019296897
 GameObject:
   m_ObjectHideFlags: 0
@@ -1032,6 +1032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4266845c757a47f47a071c027b27b012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1935750471}
 --- !u!4 &2059502200
 Transform:
   m_ObjectHideFlags: 0

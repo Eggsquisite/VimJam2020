@@ -9,8 +9,9 @@ public class Player : MonoBehaviour
 
     public float moveSpeed;
     public float maxSpeed;
+    public Vector3 offset;
 
-    private bool waypointSet = false;
+    private bool waypointSet = false, movingPlayer = false;
     private GameObject currentWaypoint, setWaypoint;
 
     // Start is called before the first frame update
@@ -27,40 +28,42 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        currentWaypoint = cm.GetWaypoint();
-        if (currentWaypoint != null && !waypointSet)
+        //currentWaypoint = cm.GetWaypoint();
+        MoveToWaypoint();
+    }
+
+    void MoveToWaypoint()
+    {
+        if (currentWaypoint != null && waypointSet)
         {
-            waypointSet = true;
+            waypointSet = false;
+            movingPlayer = true;
             setWaypoint = currentWaypoint;
             currentWaypoint = null;
         }
 
-        if (setWaypoint != null && waypointSet)
+        if (setWaypoint != null && movingPlayer)
         {
-            // move player
             Debug.Log(setWaypoint.name + " Set waypoint");
-            if (setWaypoint.transform.position.x < transform.position.x)
-            {
-                Movement(-1);
-            }
-            else if (setWaypoint.transform.position.x > transform.position.x)
-            {
-                Movement(1);
-            }
+            Movement();
 
-            if (transform.position == setWaypoint.transform.position)
+            if (transform.position.x == setWaypoint.transform.position.x)
             {
+                Debug.Log("Waypoint reached");
                 setWaypoint = null;
-                waypointSet = false;
+                movingPlayer = false;
             }
         }
     }
 
-    void Movement(float direction)
+    void Movement()
     {
-        rb.AddForce(Vector2.right * direction * moveSpeed);
+        rb.MovePosition(Vector2.MoveTowards(transform.position, setWaypoint.transform.position, moveSpeed * Time.deltaTime));
+    }
 
-        if (Mathf.Abs(rb.velocity.x) > maxSpeed)
-            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
+    public void UpdateWaypoint(GameObject newWaypoint)
+    {
+        waypointSet = true;
+        currentWaypoint = newWaypoint;
     }
 }

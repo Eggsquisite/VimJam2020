@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ClickManager : MonoBehaviour
 {
+    public Player player;
     private GameObject clickedObject;
 
     // Update is called once per frame
@@ -18,15 +19,11 @@ public class ClickManager : MonoBehaviour
             if (hit.collider != null && hit.collider.name.Contains("Waypoint"))
             {
                 clickedObject = hit.collider.gameObject;
+                player.UpdateWaypoint(clickedObject);
                 //Debug.Log(clickedObject.name);
             }
             else
                 clickedObject = null;
         }
-    }
-
-    public GameObject GetWaypoint()
-    {
-        return clickedObject;
     }
 }
