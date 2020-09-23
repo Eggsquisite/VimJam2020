@@ -6,6 +6,7 @@ public class ClickManager : MonoBehaviour
 {
     public Player player;
     private GameObject clickedObject;
+    private RaycastHit2D hit;
 
     // Update is called once per frame
     void Update()
@@ -15,15 +16,25 @@ public class ClickManager : MonoBehaviour
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
-            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-            if (hit.collider != null && hit.collider.name.Contains("Waypoint"))
+            hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+
+            if (hit.collider != null && hit.collider.tag == "Waypoint")
             {
+                if (clickedObject != null)
+                    clickedObject.GetComponent<SpriteRenderer>().enabled = true;
+
                 clickedObject = hit.collider.gameObject;
+                clickedObject.GetComponent<SpriteRenderer>().enabled = false;
                 player.UpdateWaypoint(clickedObject);
                 //Debug.Log(clickedObject.name);
             }
             else
+            {
+                if (clickedObject != null)
+                    clickedObject.GetComponent<SpriteRenderer>().enabled = true;
+
                 clickedObject = null;
+            }
         }
     }
 }

@@ -8,10 +8,9 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
 
     public float moveSpeed;
-    public float maxSpeed;
     public Vector3 offset;
 
-    private bool waypointSet = false, movingPlayer = false;
+    private bool waypointSet = false;
     private GameObject currentWaypoint, setWaypoint;
 
     // Start is called before the first frame update
@@ -37,12 +36,11 @@ public class Player : MonoBehaviour
         if (currentWaypoint != null && waypointSet)
         {
             waypointSet = false;
-            movingPlayer = true;
             setWaypoint = currentWaypoint;
             currentWaypoint = null;
         }
 
-        if (setWaypoint != null && movingPlayer)
+        if (setWaypoint != null)
         {
             Debug.Log(setWaypoint.name + " Set waypoint");
             Movement();
@@ -51,7 +49,6 @@ public class Player : MonoBehaviour
             {
                 Debug.Log("Waypoint reached");
                 setWaypoint = null;
-                movingPlayer = false;
             }
         }
     }
