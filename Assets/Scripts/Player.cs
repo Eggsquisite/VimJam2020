@@ -10,8 +10,9 @@ public class Player : MonoBehaviour
 
     [Header("Combat")]
     public LayerMask enemyLayer;
+    public Transform attackPoint;
     private RaycastHit2D enemyInSight;
-    private bool readyToAttack, attackReady, attacking;
+    private bool attackReady, attacking;
     public float checkDistance, attackCooldown;
 
     [Header("Movement")]
@@ -28,6 +29,7 @@ public class Player : MonoBehaviour
         if (anim == null) anim = GetComponent<Animator>();
 
         attackReady = true;
+        facingRight = true;
         oldPos = transform.position.x;
     }
 
@@ -61,7 +63,6 @@ public class Player : MonoBehaviour
         if (enemyInSight.collider != null)
         {
             anim.SetBool("enemyInSight", true);
-            Debug.Log("Hit enemy: " + enemyInSight.collider.name);
 
             if (attackReady)
             {
@@ -89,14 +90,12 @@ public class Player : MonoBehaviour
         if (oldPos < transform.position.x && !facingRight)
         {
             // facing/moving right
-            Debug.Log("moving right");
             facingRight = true;
             transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
         }
         else if (oldPos > transform.position.x && facingRight)
         {
             // facing/moving left
-            Debug.Log("moving left");
             facingRight = false;
             transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
         }
@@ -117,12 +116,11 @@ public class Player : MonoBehaviour
         if (setWaypoint != null)
         {
             Movement();
-            readyToAttack = false;
-
+            anim.SetFloat("movement", 1f);
             if (transform.position.x == setWaypoint.transform.position.x)
             {
                 setWaypoint = null;
-                readyToAttack = true;
+                anim.SetFloat("movement", 0f);
             }
         }
     }
@@ -130,7 +128,6 @@ public class Player : MonoBehaviour
     void Movement()
     {
         rb.MovePosition(Vector2.MoveTowards(transform.position, setWaypoint.transform.position, moveSpeed * Time.deltaTime));
-        anim.SetFloat("movement", Mathf.Sign(rb.velocity.x));
     }
 
     public void UpdateWaypoint(GameObject newWaypoint)
