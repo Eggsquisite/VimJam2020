@@ -170,7 +170,8 @@ public class Player : MonoBehaviour
 
     void Movement()
     {
-        rb.MovePosition(Vector2.MoveTowards(transform.position, setWaypoint, (moveSpeed + bonusMoveSpeed) * Time.deltaTime));
+        var tmp = new Vector2(setWaypoint.x, transform.position.y);
+        rb.MovePosition(Vector2.MoveTowards(transform.position, tmp, (moveSpeed + bonusMoveSpeed) * Time.deltaTime));
     }
 
     public void UpdateWaypoint(GameObject newWaypoint)
