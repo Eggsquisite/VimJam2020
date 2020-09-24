@@ -13,13 +13,13 @@ public class Player : MonoBehaviour
     public Transform attackPoint;
     private RaycastHit2D enemyInSight;
     private bool attackReady = true, attacking;
-    public float checkDistance, attackCooldown;
+    public float checkDistance, attackCooldown, attackRadius;
 
     [Header("Movement")]
     private GameObject currentWaypoint;
     private Vector3 setWaypoint;
     private float oldPos;
-    private bool waypointSet, facingRight = true;
+    private bool waypointSet, stopMovement, facingRight = true;
     public float moveSpeed;
 
     [Header("Health Management")]
@@ -45,7 +45,22 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!inBaseRange && !decayHealth && currentHealth > 0) 
+        if (attacking)
+            Attacking();
+
+        HealthManagement();
+        CheckEnemy();
+        Flip();
+    }
+    private void FixedUpdate()
+    {
+        if (!stopMovement)
+            MoveToWaypoint();
+    }
+
+    private void HealthManagement()
+    {
+        if (!inBaseRange && !decayHealth && currentHealth > 0)
         {
             decayHealth = true;
             StartCoroutine(HealthDecay());
@@ -55,14 +70,6 @@ public class Player : MonoBehaviour
             regenHealth = true;
             StartCoroutine(HealthRegen());
         }
-
-        CheckEnemy();
-        Flip();
-    }
-    private void FixedUpdate()
-    {
-        if (!attacking)
-            MoveToWaypoint();
     }
 
     IEnumerator HealthDecay()
@@ -98,10 +105,8 @@ public class Player : MonoBehaviour
 
             if (attackReady)
             {
-                attacking = true;
                 attackReady = false;
-
-                //anim.SetBool("attackReady", false);
+                stopMovement = true;
                 Invoke("ResetAttack", attackCooldown);
             }
         }
@@ -111,8 +116,8 @@ public class Player : MonoBehaviour
 
     private void ResetAttack()
     {
-        attacking = false;
         attackReady = true;
+        stopMovement = false;
         //anim.SetBool("attackReady", true);
         Debug.Log("Attack ready...");
     }
@@ -199,5 +204,27 @@ public class Player : MonoBehaviour
     {
         if (collision.tag == "Base")
             inBaseRange = false;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.grey;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
+    }
+
+    private void AttackStatus(int status)
+    {
+        if (status > 0)
+            attacking = true;
+        else
+            attacking = false;
+    }
+
+    private void Attacking()
+    {
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, enemyLayer);
+
+        foreach (Collider2D enemy in hitEnemies)
+            enemy.GetComponent<Enemy>().TakeDamage(100);
     }
 }
