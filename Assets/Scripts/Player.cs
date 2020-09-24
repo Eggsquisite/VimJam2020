@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [Header("Components")]
     private Rigidbody2D rb;
     private Animator anim;
+    public Healthbar healthbar;
 
     [Header("Combat")]
     public LayerMask enemyLayer;
@@ -51,11 +52,11 @@ public class Player : MonoBehaviour
         HealthManagement();
         CheckEnemy();
         Flip();
+        UpdateHealth();
     }
     private void FixedUpdate()
     {
-        if (!stopMovement)
-            MoveToWaypoint();
+        MoveToWaypoint();
     }
 
     private void HealthManagement()
@@ -119,7 +120,7 @@ public class Player : MonoBehaviour
         attackReady = true;
         stopMovement = false;
         //anim.SetBool("attackReady", true);
-        Debug.Log("Attack ready...");
+        //Debug.Log("Attack ready...");
     }
 
     private void Flip()
@@ -140,9 +141,17 @@ public class Player : MonoBehaviour
         oldPos = transform.position.x;
     }
 
+    private void UpdateHealth()
+    {
+        healthbar.SetHealth(currentHealth, maxHealth);
+    }
+
 
     void MoveToWaypoint()
     {
+        if (stopMovement) 
+            return;
+
         if (currentWaypoint != null && waypointSet)
         {
             waypointSet = false;
@@ -152,31 +161,44 @@ public class Player : MonoBehaviour
 
         if (setWaypoint != Vector3.zero)
         {
-            Movement();
-            anim.SetFloat("movement", 1f);
-            if (facingRight)
-            {
-                if (transform.position.x >= setWaypoint.x - 0.2f)
-                {
-                    setWaypoint = Vector3.zero;
-                    anim.SetFloat("movement", 0f);
-                }
-            }
-            else
-            {
-                if (transform.position.x <= setWaypoint.x + 0.2f)
-                {
-                    setWaypoint = Vector3.zero;
-                    anim.SetFloat("movement", 0f);
-                }
-            }
+            if (!stopMovement)
+                Movement();
+
+            WaypointCheck();
         }
     }
 
     void Movement()
     {
+        anim.SetFloat("movement", 1f);
         var tmp = new Vector2(setWaypoint.x, transform.position.y);
         rb.MovePosition(Vector2.MoveTowards(transform.position, tmp, (moveSpeed + bonusMoveSpeed) * Time.deltaTime));
+    }
+
+    void WaypointCheck()
+    {
+        if (facingRight)
+        {
+            if (transform.position.x >= setWaypoint.x - 0.2f)
+            {
+                //Debug.Log("hit right dest: true == " + facingRight);
+                StopMovement();
+            }
+        }
+        else
+        {
+            if (transform.position.x <= setWaypoint.x + 0.2f)
+            {
+                //Debug.Log("hit left dest: false == " + facingRight);
+                StopMovement();
+            }
+        }
+    }
+
+    void StopMovement()
+    {
+        setWaypoint = Vector3.zero;
+        anim.SetFloat("movement", 0f);
     }
 
     public void UpdateWaypoint(GameObject newWaypoint)
