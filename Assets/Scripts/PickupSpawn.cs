@@ -5,14 +5,12 @@ using UnityEngine;
 public class PickupSpawn : MonoBehaviour
 {
     [Header("Spawn Frequency")]
-    public float minSpawnTime, maxSpawnTime, bubblesDuration, pickupDuration;
+    public float minSpawnTime, maxSpawnTime;
     private float spawnTimer, spawnTime;
-    private bool spawnReady;
 
     [Header("Pickup Lists")]
-    public List<Transform> pickupLocations;
-    public List<GameObject> pickupPrefabs;
     public GameObject bubbles;
+    public List<Transform> pickupLocations;
     private List<GameObject> pickups = new List<GameObject>();
 
     // Start is called before the first frame update
@@ -44,34 +42,7 @@ public class PickupSpawn : MonoBehaviour
         Debug.Log("Spawning...");
 
         int temp = Random.Range(0, pickupLocations.Count);
-        var tmpPickup = Instantiate(bubbles, pickupLocations[temp].position, Quaternion.identity);
-
-        pickups.Add(tmpPickup);
-        StartCoroutine(CreatePickup(temp));
+        Instantiate(bubbles, pickupLocations[temp].position, Quaternion.identity);
     }
 
-    IEnumerator CreatePickup(int temp)
-    {
-        yield return new WaitForSeconds(bubblesDuration);
-        if (pickups != null)
-        {
-            Destroy(pickups[0]);
-            Debug.Log("pickups[0]: " + pickups[0]);
-            pickups.RemoveAt(0);
-
-            var tmpPickup = Instantiate(pickupPrefabs[Random.Range(0, pickupPrefabs.Count)], pickupLocations[temp].position, Quaternion.identity);
-            pickups.Add(tmpPickup);
-            StartCoroutine(DeletePickup());
-        }
-    }
-
-    IEnumerator DeletePickup()
-    {
-        yield return new WaitForSeconds(pickupDuration);
-        if (pickups != null)
-        {
-            Destroy(pickups[0]);
-            pickups.RemoveAt(0);
-        }
-    }
 }

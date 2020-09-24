@@ -21,7 +21,7 @@ public class ClickManager : MonoBehaviour
 
             if (hit.collider != null)
             {
-                Debug.Log("hit: " + hit.collider.name);
+                //Debug.Log("hit: " + hit.collider.name);
                 if (hit.collider.tag == "Waypoint")
                 {
                     if (clickedObject != null)

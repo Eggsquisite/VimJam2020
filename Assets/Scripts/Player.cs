@@ -12,17 +12,26 @@ public class Player : MonoBehaviour
     public LayerMask enemyLayer;
     public Transform attackPoint;
     private RaycastHit2D enemyInSight;
-    private bool attackReady, attacking;
+    private bool attackReady = true, attacking;
     public float checkDistance, attackCooldown;
 
     [Header("Movement")]
-    private GameObject currentWaypoint, setWaypoint;
+    private GameObject currentWaypoint;
+    private Vector3 setWaypoint;
     private float oldPos;
-    private bool waypointSet, facingRight;
+    private bool waypointSet, facingRight = true;
     public float moveSpeed;
+
+    [Header("Health Management")]
+    public int maxHealth;
+    private int currentHealth;
+    private bool inHealthRange = false;
 
     [Header("Adjustable Stats")]
     public float bonusMoveSpeed;
+    public float bonusAttackSpeed;
+    public int bonusHealth;
+    public float bonusDownTime;
 
     // Start is called before the first frame update
     void Start()
@@ -30,17 +39,17 @@ public class Player : MonoBehaviour
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         if (anim == null) anim = GetComponent<Animator>();
 
-        attackReady = true;
-        facingRight = true;
+        currentHealth = maxHealth;
         oldPos = transform.position.x;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if (readyToAttack)
-            CheckEnemy();
+        if (!inHealthRange)
+            currentHealth -= 1;
 
+        CheckEnemy();
         Flip();
     }
     private void FixedUpdate()
@@ -68,11 +77,10 @@ public class Player : MonoBehaviour
 
             if (attackReady)
             {
+                attacking = true;
                 attackReady = false;
 
-                attacking = true;
-                anim.ResetTrigger("attack");
-                anim.SetTrigger("attack");
+                //anim.SetBool("attackReady", false);
                 Invoke("ResetAttack", attackCooldown);
             }
         }
@@ -84,6 +92,7 @@ public class Player : MonoBehaviour
     {
         attacking = false;
         attackReady = true;
+        //anim.SetBool("attackReady", true);
         Debug.Log("Attack ready...");
     }
 
@@ -111,30 +120,56 @@ public class Player : MonoBehaviour
         if (currentWaypoint != null && waypointSet)
         {
             waypointSet = false;
-            setWaypoint = currentWaypoint;
+            setWaypoint = currentWaypoint.transform.position;
             currentWaypoint = null;
         }
 
-        if (setWaypoint != null)
+        if (setWaypoint != Vector3.zero)
         {
             Movement();
             anim.SetFloat("movement", 1f);
-            if (transform.position.x == setWaypoint.transform.position.x)
+            if (facingRight)
             {
-                setWaypoint = null;
-                anim.SetFloat("movement", 0f);
+                if (transform.position.x >= setWaypoint.x - 0.2f)
+                {
+                    setWaypoint = Vector3.zero;
+                    anim.SetFloat("movement", 0f);
+                }
+            }
+            else
+            {
+                if (transform.position.x <= setWaypoint.x + 0.2f)
+                {
+                    setWaypoint = Vector3.zero;
+                    anim.SetFloat("movement", 0f);
+                }
             }
         }
     }
 
     void Movement()
     {
-        rb.MovePosition(Vector2.MoveTowards(transform.position, setWaypoint.transform.position, (moveSpeed + bonusMoveSpeed) * Time.deltaTime));
+        rb.MovePosition(Vector2.MoveTowards(transform.position, setWaypoint, (moveSpeed + bonusMoveSpeed) * Time.deltaTime));
     }
 
     public void UpdateWaypoint(GameObject newWaypoint)
     {
         waypointSet = true;
         currentWaypoint = newWaypoint;
+    }
+
+    public void PickupBonus(float moveSpeed, float attackSpeed, int health)
+    {
+        bonusMoveSpeed += moveSpeed;
+        bonusAttackSpeed += attackSpeed;
+        bonusHealth = health;
+
+        UpdateStats();
+    }
+
+    void UpdateStats()
+    {
+        maxHealth += bonusHealth;
+        anim.SetFloat("attackSpeed", bonusAttackSpeed);
     }
 }
