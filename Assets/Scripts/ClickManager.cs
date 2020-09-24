@@ -24,13 +24,11 @@ public class ClickManager : MonoBehaviour
                 //Debug.Log("hit: " + hit.collider.name);
                 if (hit.collider.tag == "Waypoint")
                 {
-                    if (clickedObject != null)
-                        clickedObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
-                        //clickedObject.GetComponent<SpriteRenderer>().enabled = true;
+                    //if (clickedObject != null)
+                        //clickedObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
 
                     clickedObject = hit.collider.gameObject;
-                    clickedObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
-                    //clickedObject.GetComponent<SpriteRenderer>().enabled = false;
+                    //clickedObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
                     player.UpdateWaypoint(clickedObject);
                 }
                 else { 

@@ -24,14 +24,13 @@ public class Player : MonoBehaviour
 
     [Header("Health Management")]
     public int maxHealth;
-    private int currentHealth;
-    private bool inHealthRange = false;
+    public int currentHealth;
+    public int healthDecayValue, healthRegenValue;
+    private bool inBaseRange = false, regenHealth, decayHealth;
 
     [Header("Adjustable Stats")]
     public float bonusMoveSpeed;
-    public float bonusAttackSpeed;
-    public int bonusHealth;
-    public float bonusDownTime;
+    public float attackSpeedMult;
 
     // Start is called before the first frame update
     void Start()
@@ -46,8 +45,16 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!inHealthRange)
-            currentHealth -= 1;
+        if (!inBaseRange && !decayHealth && currentHealth > 0) 
+        {
+            decayHealth = true;
+            StartCoroutine(HealthDecay());
+        }
+        else if (inBaseRange && !regenHealth && currentHealth < maxHealth)
+        {
+            regenHealth = true;
+            StartCoroutine(HealthRegen());
+        }
 
         CheckEnemy();
         Flip();
@@ -56,6 +63,20 @@ public class Player : MonoBehaviour
     {
         if (!attacking)
             MoveToWaypoint();
+    }
+
+    IEnumerator HealthDecay()
+    {
+        currentHealth -= healthDecayValue;
+        yield return new WaitForSeconds(1);
+        decayHealth = false;
+    }
+
+    IEnumerator HealthRegen()
+    {
+        currentHealth += healthRegenValue;
+        yield return new WaitForSeconds(1);
+        regenHealth = false;
     }
 
     private void CheckEnemy()
@@ -161,15 +182,21 @@ public class Player : MonoBehaviour
     public void PickupBonus(float moveSpeed, float attackSpeed, int health)
     {
         bonusMoveSpeed += moveSpeed;
-        bonusAttackSpeed += attackSpeed;
-        bonusHealth = health;
+        attackSpeedMult += attackSpeed;
+        maxHealth += health;
 
-        UpdateStats();
+        anim.SetFloat("attackSpeed", attackSpeedMult);
     }
 
-    void UpdateStats()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        maxHealth += bonusHealth;
-        anim.SetFloat("attackSpeed", bonusAttackSpeed);
+        if (collision.tag == "Base")
+            inBaseRange = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Base")
+            inBaseRange = false;
     }
 }
