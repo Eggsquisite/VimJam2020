@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [Header("Components")]
     private Rigidbody2D rb;
     private Animator anim;
+    private Collider2D coll;
     public Healthbar healthbar;
 
     [Header("Combat")]
@@ -40,6 +41,7 @@ public class Player : MonoBehaviour
     {
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         if (anim == null) anim = GetComponent<Animator>();
+        if (coll == null) coll = GetComponent<Collider2D>();
 
         currentHealth = maxHealth;
         oldPos = transform.position.x;
@@ -81,6 +83,7 @@ public class Player : MonoBehaviour
             deathTimer = 0;
             dead = false;
             stopMovement = false;
+            coll.enabled = true;
             currentHealth = maxHealth;
         }
     }
@@ -134,19 +137,18 @@ public class Player : MonoBehaviour
             {
                 attackReady = false;
                 stopMovement = true;
-                Invoke("ResetAttack", attackCooldown);
+                //Invoke("ResetAttack", attackCooldown);
             }
         }
         else
             anim.SetBool("enemyInSight", false);
     }
 
-    private void ResetAttack()
+    private void AttackFinished()
     {
         attackReady = true;
         stopMovement = false;
-        //anim.SetBool("attackReady", true);
-        //Debug.Log("Attack ready...");
+        anim.ResetTrigger("hit");
     }
 
     private void Flip()
@@ -269,6 +271,7 @@ public class Player : MonoBehaviour
         {
             StopMovement();
             stopMovement = true;
+            coll.enabled = false;
             anim.ResetTrigger("dead");
             anim.SetTrigger("dead");
         }
