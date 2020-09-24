@@ -24,10 +24,12 @@ public class Player : MonoBehaviour
     public float moveSpeed;
 
     [Header("Health Management")]
-    public int maxHealth;
-    public int currentHealth;
-    public int healthDecayValue, healthRegenValue;
-    private bool inBaseRange = false, regenHealth, decayHealth;
+    public float maxHealth;
+    public float currentHealth;
+    public float healthDecayValue, healthRegenValue;
+    public float deathMaxTime;
+    private float deathTimer;
+    private bool inBaseRange = false, regenHealth, decayHealth, dead;
 
     [Header("Adjustable Stats")]
     public float bonusMoveSpeed;
@@ -46,44 +48,68 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateHealth();
+        if (dead) {
+            Resurrecting();
+            return;
+        }
+
         if (attacking)
             Attacking();
 
         HealthManagement();
         CheckEnemy();
         Flip();
-        UpdateHealth();
     }
     private void FixedUpdate()
     {
         MoveToWaypoint();
     }
 
+    private void Resurrecting()
+    {
+        if (currentHealth < maxHealth && !regenHealth)
+        {
+            regenHealth = true;
+            StartCoroutine(HealthRegen(-healthRegenValue * 3.5f));
+        }
+
+        if (deathTimer < deathMaxTime)
+            deathTimer += Time.deltaTime;
+        else if (deathTimer >= deathMaxTime)
+        {
+            deathTimer = 0;
+            dead = false;
+            stopMovement = false;
+            currentHealth = maxHealth;
+        }
+    }
+
     private void HealthManagement()
     {
-        if (!inBaseRange && !decayHealth && currentHealth > 0)
+        if (!inBaseRange && !decayHealth && currentHealth > 6)
         {
             decayHealth = true;
-            StartCoroutine(HealthDecay());
+            StartCoroutine(HealthDecay(healthDecayValue));
         }
         else if (inBaseRange && !regenHealth && currentHealth < maxHealth)
         {
             regenHealth = true;
-            StartCoroutine(HealthRegen());
+            StartCoroutine(HealthRegen(-healthRegenValue));
         }
     }
 
-    IEnumerator HealthDecay()
+    IEnumerator HealthDecay(float decay)
     {
-        currentHealth -= healthDecayValue;
-        yield return new WaitForSeconds(1);
+        TakeDamage(decay, false);
+        yield return new WaitForSeconds(.1f);
         decayHealth = false;
     }
 
-    IEnumerator HealthRegen()
+    IEnumerator HealthRegen(float regen)
     {
-        currentHealth += healthRegenValue;
-        yield return new WaitForSeconds(1);
+        TakeDamage(regen, false);
+        yield return new WaitForSeconds(0.1f);
         regenHealth = false;
     }
 
@@ -143,6 +169,9 @@ public class Player : MonoBehaviour
 
     private void UpdateHealth()
     {
+        if (currentHealth < 6)
+            currentHealth = 6;
+
         healthbar.SetHealth(currentHealth, maxHealth);
     }
 
@@ -207,13 +236,52 @@ public class Player : MonoBehaviour
         currentWaypoint = newWaypoint;
     }
 
-    public void PickupBonus(float moveSpeed, float attackSpeed, int health)
+    public void PickupBonus(float moveSpeed, float attackSpeed, float health)
     {
         bonusMoveSpeed += moveSpeed;
         attackSpeedMult += attackSpeed;
         maxHealth += health;
+        currentHealth += health;
 
         anim.SetFloat("attackSpeed", attackSpeedMult);
+    }
+
+    private void AttackStatus(int status)
+    {
+        if (status > 0)
+            attacking = true;
+        else
+            attacking = false;
+    }
+
+    private void Attacking()
+    {
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, enemyLayer);
+
+        foreach (Collider2D enemy in hitEnemies)
+            enemy.GetComponent<Enemy>().TakeDamage(100);
+    }
+
+    public void TakeDamage(float dmg, bool hitByEnemy)
+    {
+        currentHealth -= dmg;
+        if (currentHealth <= 6)
+        {
+            StopMovement();
+            stopMovement = true;
+            anim.ResetTrigger("dead");
+            anim.SetTrigger("dead");
+        }
+        else if (currentHealth > 6 && hitByEnemy)
+        {
+            anim.ResetTrigger("hit");
+            anim.SetTrigger("hit");
+        }
+    }
+
+    private void Death()
+    {
+        dead = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -232,21 +300,5 @@ public class Player : MonoBehaviour
     {
         Gizmos.color = Color.grey;
         Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
-    }
-
-    private void AttackStatus(int status)
-    {
-        if (status > 0)
-            attacking = true;
-        else
-            attacking = false;
-    }
-
-    private void Attacking()
-    {
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, enemyLayer);
-
-        foreach (Collider2D enemy in hitEnemies)
-            enemy.GetComponent<Enemy>().TakeDamage(100);
     }
 }

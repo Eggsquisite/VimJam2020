@@ -14,7 +14,7 @@ public class Pickup : MonoBehaviour
     [Header("Bonuses")]
     public float bonusMoveSpeed;
     public float bonusAttackSpeed;
-    public int bonusHealth;
+    public float bonusHealth;
 
     // Start is called before the first frame update
     void Start()
