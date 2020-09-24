@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
         if (currentHealth < maxHealth && !regenHealth)
         {
             regenHealth = true;
-            StartCoroutine(HealthRegen(-healthRegenValue * 3.5f));
+            StartCoroutine(HealthRegen(-healthRegenValue * deathMaxTime));
         }
 
         if (deathTimer < deathMaxTime)
