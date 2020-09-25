@@ -26,9 +26,9 @@ public class Player : MonoBehaviour
     public float checkDistance, attackCooldown, attackRadius;
 
     [Header("Movement")]
-    private GameObject currentWaypoint;
-    private Vector3 setWaypoint;
-    private float oldPos;
+    //private Vector2 currentWaypoint;
+    private Vector2 setWaypoint;
+    private float oldPos, waypointPos;
     private bool waypointSet, stopMovement, facingRight = true;
     public float moveSpeed;
     private bool endGame;
@@ -88,7 +88,8 @@ public class Player : MonoBehaviour
             InvincibleReset();
 
         HealthManagement();
-        CheckEnemy();
+        //CheckEnemy();
+        Attack();
         Flip();
     }
     private void FixedUpdate()
@@ -183,6 +184,16 @@ public class Player : MonoBehaviour
             anim.SetBool("enemyInSight", false);
     }
 
+    private void Attack()
+    {
+        if (Input.GetMouseButtonDown(1) && attackReady)
+        {
+            anim.SetBool("enemyInSight", true);
+            attackReady = false;
+            stopMovement = true;
+        }
+    }
+
     private void AttackSound()
     {
         audioSource.PlayOneShot(attackSFX);
@@ -193,6 +204,7 @@ public class Player : MonoBehaviour
         attackReady = true;
         stopMovement = false;
         anim.ResetTrigger("hit");
+        anim.SetBool("enemyInSight", false);
     }
 
     private void Flip()
@@ -224,24 +236,14 @@ public class Player : MonoBehaviour
 
     void MoveToWaypoint()
     {
-
-        if (currentWaypoint != null && waypointSet)
-        {
-            waypointSet = false;
-            setWaypoint = currentWaypoint.transform.position;
-            currentWaypoint = null;
-        }
-
         if (stopMovement) 
             return;
 
-        if (setWaypoint != Vector3.zero)
-        {
-            if (!stopMovement)
+        if (!stopMovement)
                 Movement();
 
-            WaypointCheck();
-        }
+        WaypointCheck();
+        
     }
 
     void Movement()
@@ -277,10 +279,10 @@ public class Player : MonoBehaviour
         anim.SetFloat("movement", 0f);
     }
 
-    public void UpdateWaypoint(GameObject newWaypoint)
+    public void UpdateWaypoint(Vector2 newWaypoint)
     {
         waypointSet = true;
-        currentWaypoint = newWaypoint;
+        setWaypoint = newWaypoint;
     }
 
     public void PickupBonus(float moveSpeed, float attackSpeed, float health, int ID)

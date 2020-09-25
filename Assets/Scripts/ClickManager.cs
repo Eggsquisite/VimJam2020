@@ -17,6 +17,9 @@ public class ClickManager : MonoBehaviour
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
+            player.UpdateWaypoint(mousePos2D);
+
+            /*
             hit = Physics2D.Raycast(mousePos2D, Vector2.zero, 0f, layers);
 
             if (hit.collider != null)
@@ -34,7 +37,8 @@ public class ClickManager : MonoBehaviour
                 else { 
                     clickedObject = null;
                 }
+                */
+
             }
         }
     }
-}

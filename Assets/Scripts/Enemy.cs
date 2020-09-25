@@ -59,7 +59,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         Flip();
-        CheckPlayer();
+        //CheckPlayer();
     }
 
     private void FixedUpdate()
@@ -140,9 +140,11 @@ public class Enemy : MonoBehaviour
             Die();
     }
 
-    public void UpdateDamage(int newVal)
+    public void UpdateSpeed(float newVal)
     {
-        damageValue += newVal;
+        minMoveSpeed += newVal;
+        maxMoveSpeed += newVal;
+        moveSpeed = Random.Range(minMoveSpeed, maxMoveSpeed);
     }
 
     private void Die()
@@ -159,7 +161,10 @@ public class Enemy : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "EndGoal")
+        {
             collision.GetComponent<End>().EndGame();
+            Die();
+        }
     }
 
     private void OnDrawGizmos()

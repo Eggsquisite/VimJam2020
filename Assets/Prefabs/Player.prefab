@@ -71,7 +71,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6671905519911992094}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.34, y: 0.02, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6671905520685124059}
@@ -245,11 +245,11 @@ MonoBehaviour:
   attackPoint: {fileID: 6671905519911992095}
   checkDistance: 0.8
   attackCooldown: 2.5
-  attackRadius: 1
+  attackRadius: 0.75
   moveSpeed: 2
   maxHealth: 100
   currentHealth: 0
-  healthDecayValue: 0.25
+  healthDecayValue: 0.5
   healthRegenValue: 0.25
   deathMaxTime: 4
   bonusMoveSpeed: 0
