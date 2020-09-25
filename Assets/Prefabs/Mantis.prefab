@@ -194,7 +194,7 @@ MonoBehaviour:
   checkDistance: 1
   attackCooldown: 1
   maxHealth: 150
-  damageValue: 15
+  damageValue: 10
   minMoveSpeed: 0.5
   maxMoveSpeed: 1
   deathSFX: {fileID: 8300000, guid: 7ac390b42dd7b9243b251f9f8178838e, type: 3}

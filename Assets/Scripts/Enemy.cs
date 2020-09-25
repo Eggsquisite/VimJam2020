@@ -28,18 +28,19 @@ public class Enemy : MonoBehaviour
     private float oldPos;
     public float minMoveSpeed, maxMoveSpeed;
     private float moveSpeed;
+    private bool endGame;
 
     [Header("SFX")]
     public AudioClip deathSFX;
 
     private void OnEnable()
     {
-        End.OnEnd += Die;
+        End.OnEnd += EndGame;
     }
 
     private void OnDisable()
     {
-        End.OnEnd -= Die;
+        End.OnEnd -= EndGame;
     }
 
     // Start is called before the first frame update
@@ -147,6 +148,11 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         audioSource.PlayOneShot(deathSFX);
+        Destroy(gameObject);
+    }
+
+    private void EndGame()
+    {
         Destroy(gameObject);
     }
 
