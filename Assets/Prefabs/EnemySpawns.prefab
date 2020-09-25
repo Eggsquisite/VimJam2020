@@ -47,8 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minSpawnTime: 4
   maxSpawnTime: 6
-  decreaseSpawnTime: 0.5
+  decreaseSpawnTime: 0.75
   decreaseFreq: 30
+  addedDamage: 5
   enemy:
   - {fileID: 8726475222791209061, guid: e874310e07290ee40b9651632fb71a79, type: 3}
   pickupLocations:

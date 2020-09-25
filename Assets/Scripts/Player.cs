@@ -31,8 +31,8 @@ public class Player : MonoBehaviour
     public float currentHealth;
     public float healthDecayValue, healthRegenValue;
     public float deathMaxTime;
-    private float deathTimer;
-    private bool inBaseRange = false, regenHealth, decayHealth, dead;
+    private float deathTimer, invincibleTimer;
+    private bool inBaseRange = false, regenHealth, decayHealth, dead, invincible;
 
     [Header("Adjustable Stats")]
     public float bonusMoveSpeed;
@@ -76,6 +76,9 @@ public class Player : MonoBehaviour
         if (attacking)
             Attacking();
 
+        if (invincible)
+            InvincibleReset();
+
         HealthManagement();
         CheckEnemy();
         Flip();
@@ -102,6 +105,17 @@ public class Player : MonoBehaviour
             stopMovement = false;
             coll.enabled = true;
             currentHealth = maxHealth;
+        }
+    }
+
+    private void InvincibleReset()
+    {
+        if (invincibleTimer < 1f)
+            invincibleTimer += Time.deltaTime;
+        else if (invincibleTimer >= 1f)
+        {
+            invincibleTimer = 0;
+            invincible = false;
         }
     }
 
@@ -298,6 +312,10 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(float dmg, bool hitByEnemy)
     {
+        if (invincible)
+            return;
+
+        invincible = true;
         currentHealth -= dmg;
         if (currentHealth <= 6)
             Death();

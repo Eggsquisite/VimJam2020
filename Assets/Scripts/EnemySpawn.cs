@@ -9,8 +9,10 @@ public class EnemySpawn : MonoBehaviour
     public float maxSpawnTime;
     public float decreaseSpawnTime; 
     public float decreaseFreq;
+    public int addedDamage;
     private float spawnTimer, spawnTime;
     private bool endGame;
+    private int damageBase = 0;
 
     [Header("Pickup Lists")]
     public List<GameObject> enemy;
@@ -56,6 +58,7 @@ public class EnemySpawn : MonoBehaviour
     {
         minSpawnTime -= decreaseSpawnTime;
         maxSpawnTime -= decreaseSpawnTime;
+        damageBase += addedDamage;
 
         if (minSpawnTime <= 0)
             minSpawnTime = 1f;
@@ -73,7 +76,8 @@ public class EnemySpawn : MonoBehaviour
     {
         int tempDest = Random.Range(0, pickupLocations.Count);
         int tempEnemy = Random.Range(0, enemy.Count);
-        Instantiate(enemy[tempEnemy], pickupLocations[tempDest].position, Quaternion.identity);
+        var tmp = Instantiate(enemy[tempEnemy], pickupLocations[tempDest].position, Quaternion.identity);
+        tmp.GetComponent<Enemy>().UpdateDamage(damageBase);
     }
 
     void StopSpawn()

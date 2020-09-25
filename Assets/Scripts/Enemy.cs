@@ -120,13 +120,6 @@ public class Enemy : MonoBehaviour
 
         foreach (Collider2D player in hit)
         {
-            if (player.tag == "EndGoal")
-            {
-                if (player.GetComponent<End>() != null)
-                    player.GetComponent<End>().EndGame();
-                return;
-            }
-
             player.GetComponent<Player>().TakeDamage(damageValue, true);
         }
 
@@ -141,11 +134,22 @@ public class Enemy : MonoBehaviour
             Die();
     }
 
+    public void UpdateDamage(int newVal)
+    {
+        damageValue += newVal;
+    }
+
     private void Die()
     {
         // play death sound
         // play death anim
         Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "EndGoal")
+            collision.GetComponent<End>().EndGame();
     }
 
     private void OnDrawGizmos()
