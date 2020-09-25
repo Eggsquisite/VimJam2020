@@ -104,7 +104,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -228280481
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 10
   m_Sprite: {fileID: 8644781408246823786, guid: bea15898622f3e749a951cd1715bfe58, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -190,6 +190,7 @@ MonoBehaviour:
   player:
     serializedVersion: 2
     m_Bits: 256
+  explosion: {fileID: 6591316567469784487, guid: 6cea6091f72a7ed40b70a76b764ea885, type: 3}
   attackRadius: 1
   checkDistance: 1
   attackCooldown: 1

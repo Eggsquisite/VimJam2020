@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public delegate void KillAll();
+    public static event KillAll DestroyAll;
+
     [Header("Components")]
     private Rigidbody2D rb;
     private Animator anim;
@@ -15,7 +18,8 @@ public class Player : MonoBehaviour
     [Header("SFX")]
     public AudioClip deathSFX;
     public AudioClip attackSFX;
-    public AudioClip hurtSFX;
+    public AudioClip explosionSFX;
+    public AudioClip drinkSFX;
     public AudioClip eatSFX;
 
     [Header("Combat")]
@@ -28,15 +32,15 @@ public class Player : MonoBehaviour
     [Header("Movement")]
     //private Vector2 currentWaypoint;
     private Vector2 setWaypoint;
-    private float oldPos, waypointPos;
-    private bool waypointSet, stopMovement, facingRight = true;
+    private float oldPos;
+    private bool stopMovement, facingRight = true;
     public float moveSpeed;
     private bool endGame;
 
     [Header("Health Management")]
     public float maxHealth;
     public float currentHealth;
-    public float healthDecayValue, healthRegenValue;
+    public float healthDecayValue, healthRegenMult;
     public float deathMaxTime;
     private float deathTimer, invincibleTimer;
     private bool inBaseRange = false, regenHealth, decayHealth, dead, invincible;
@@ -44,8 +48,9 @@ public class Player : MonoBehaviour
     [Header("Adjustable Stats")]
     public float bonusMoveSpeed;
     public float attackSpeedMult;
+    public float bonusRegen;
     public float maxPickups;
-    private int healthPickups, speedPickups, attackPickups;
+    private int healthPickups, speedPickups, attackPickups, regenPickups;
 
     private void OnEnable()
     {
@@ -102,7 +107,7 @@ public class Player : MonoBehaviour
         if (currentHealth < maxHealth && !regenHealth)
         {
             regenHealth = true;
-            StartCoroutine(HealthRegen(-deathMaxTime));
+            StartCoroutine(HealthRegen(deathMaxTime / 100));
         }
 
         if (deathTimer < deathMaxTime)
@@ -138,21 +143,21 @@ public class Player : MonoBehaviour
         else if (inBaseRange && !regenHealth && currentHealth < maxHealth)
         {
             regenHealth = true;
-            StartCoroutine(HealthRegen(-healthRegenValue));
+            StartCoroutine(HealthRegen(bonusRegen));
         }
     }
 
     IEnumerator HealthDecay(float decay)
     {
         TakeDamage(decay, false);
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(.15f);
         decayHealth = false;
     }
 
-    IEnumerator HealthRegen(float regen)
+    IEnumerator HealthRegen(float multiplier)
     {
-        TakeDamage(regen - attackSpeedMult, false);
-        yield return new WaitForSeconds(0.1f);
+        Heal(multiplier);
+        yield return new WaitForSeconds(0.15f);
         regenHealth = false;
     }
 
@@ -281,19 +286,26 @@ public class Player : MonoBehaviour
 
     public void UpdateWaypoint(Vector2 newWaypoint)
     {
-        waypointSet = true;
         setWaypoint = newWaypoint;
     }
 
-    public void PickupBonus(float moveSpeed, float attackSpeed, float health, int ID)
+    public void PickupBonus(float moveSpeed, float attackSpeed, float health, float regen, int ID)
     {
-        audioSource.PlayOneShot(eatSFX);
+        if (ID == 4)
+            audioSource.PlayOneShot(drinkSFX);
+        else
+            audioSource.PlayOneShot(eatSFX);
+
         if (ID == 0)
             healthPickups++;
         else if (ID == 1)
             speedPickups++;
         else if (ID == 2)
             attackPickups++;
+        else if (ID == 3)
+            regenPickups++;
+        else if (ID == 4)
+            MoonshinePickup();
 
         if (healthPickups <= maxPickups) {
             maxHealth += health;
@@ -304,9 +316,12 @@ public class Player : MonoBehaviour
         }
         if (attackPickups <= maxPickups) { 
             attackSpeedMult += attackSpeed;
+        } 
+        if (regenPickups <= maxPickups) {
+            bonusRegen += regen;
         }
 
-        //anim.SetFloat("attackSpeed", attackSpeedMult);
+        anim.SetFloat("attackSpeed", attackSpeedMult);
         pickupUI.UpdatePickups(ID);
     }
 
@@ -334,7 +349,7 @@ public class Player : MonoBehaviour
         if (hitByEnemy)
         {
             invincible = true;
-            audioSource.PlayOneShot(hurtSFX);
+            //audioSource.PlayOneShot(hurtSFX);
         }
 
         currentHealth -= dmg;
@@ -345,6 +360,11 @@ public class Player : MonoBehaviour
             anim.ResetTrigger("hit");
             anim.SetTrigger("hit");
         }
+    }
+
+    private void Heal(float multiplier)
+    {
+        currentHealth += maxHealth * (healthRegenMult + multiplier);
     }
 
     private void Death()
@@ -368,6 +388,13 @@ public class Player : MonoBehaviour
         endGame = true;
         //anim.ResetTrigger("dead");
         anim.SetBool("endGame", true);
+    }
+
+    private void MoonshinePickup()
+    {
+        // has references to Enemy.cs
+        DestroyAll();
+        audioSource.PlayOneShot(explosionSFX);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

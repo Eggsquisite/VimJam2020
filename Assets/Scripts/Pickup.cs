@@ -13,8 +13,9 @@ public class Pickup : MonoBehaviour
 
     [Header("Bonuses")]
     public float bonusMoveSpeed;
-    public float bonusAttackSpeed;
     public float bonusHealth;
+    public float bonusAttackSpeed;
+    public float bonusRegen;
     public int pickupID;
 
     // Start is called before the first frame update
@@ -48,7 +49,7 @@ public class Pickup : MonoBehaviour
         {
             collected = true;
             Invoke("DestroyPickup", fadeDuration);
-            collision.GetComponent<Player>().PickupBonus(bonusMoveSpeed, bonusAttackSpeed, bonusHealth, pickupID);
+            collision.GetComponent<Player>().PickupBonus(bonusMoveSpeed, bonusAttackSpeed, bonusHealth, bonusRegen, pickupID);
             // call player script to add bonus
         }
     }

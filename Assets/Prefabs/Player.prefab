@@ -152,7 +152,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -228280481
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 15
   m_Sprite: {fileID: 45966500872709769, guid: c4a97c1ea87c0ff4e8dee62583cd5056, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -237,21 +237,23 @@ MonoBehaviour:
   pickupUI: {fileID: 0}
   deathSFX: {fileID: 8300000, guid: 59501e387e6df8843a0fd62a9f6a0db8, type: 3}
   attackSFX: {fileID: 8300000, guid: 90ddac89959c30f4aab5a435f5b706a6, type: 3}
-  hurtSFX: {fileID: 8300000, guid: 59501e387e6df8843a0fd62a9f6a0db8, type: 3}
+  explosionSFX: {fileID: 8300000, guid: 2f36d58e50cb82a4b84aa2e3fb427105, type: 3}
+  drinkSFX: {fileID: 8300000, guid: 0433a404cc6ad1745a57d692b893f12a, type: 3}
   eatSFX: {fileID: 8300000, guid: e1a82d6e1f2b2ed4583096e6e5fb7395, type: 3}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 512
   attackPoint: {fileID: 6671905519911992095}
   checkDistance: 0.8
-  attackCooldown: 2.5
+  attackCooldown: 2.25
   attackRadius: 0.75
-  moveSpeed: 2
-  maxHealth: 100
+  moveSpeed: 2.5
+  maxHealth: 200
   currentHealth: 0
-  healthDecayValue: 0.5
-  healthRegenValue: 0.25
+  healthDecayValue: 2.5
+  healthRegenMult: 0.01
   deathMaxTime: 4
   bonusMoveSpeed: 0
-  attackSpeedMult: 0
+  attackSpeedMult: 1
+  bonusRegen: 0
   maxPickups: 7

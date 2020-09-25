@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Combat")]
     public LayerMask player;
+    public GameObject explosion;
     public float attackRadius;
     public float checkDistance;
     public float attackCooldown;
@@ -36,11 +37,13 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         End.OnEnd += EndGame;
+        Player.DestroyAll += Explode;
     }
 
     private void OnDisable()
     {
         End.OnEnd -= EndGame;
+        Player.DestroyAll -= Explode;
     }
 
     // Start is called before the first frame update
@@ -50,7 +53,7 @@ public class Enemy : MonoBehaviour
         if (anim == null) anim = GetComponent<Animator>();
         if (audioSource == null) audioSource = Camera.main.GetComponent<AudioSource>();
 
-        moveSpeed = Random.Range(minMoveSpeed, maxMoveSpeed);
+        //moveSpeed = Random.Range(minMoveSpeed, maxMoveSpeed);
         currentHealth = maxHealth;
         oldPos = transform.position.x;
     }
@@ -155,6 +158,12 @@ public class Enemy : MonoBehaviour
 
     private void EndGame()
     {
+        Destroy(gameObject);
+    }
+
+    private void Explode()
+    {
+        Instantiate(explosion, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 

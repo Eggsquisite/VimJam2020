@@ -6,14 +6,38 @@ using UnityEngine.UI;
 public class PickupUI : MonoBehaviour
 {
     public int maxPickups;
-    private int healthPickups = 0, speedPickups = 0, attackPickups = 0;
+    private int healthPickups = 0, speedPickups = 0, attackPickups = 0, regenPickups = 0;
 
-    public Image[] healthImgs, speedImgs, attackImgs;
+    public Image[] healthImgs, speedImgs, attackImgs, regenImgs;
     private void Start()
     {
-        HealthPickups();
-        SpeedPickups();
-        AttackPickups();
+        AllPickups();
+    }
+
+    void AllPickups()
+    {
+        Pickups(healthPickups, healthImgs);
+        Pickups(speedPickups, speedImgs);
+        Pickups(attackPickups, attackImgs);
+        Pickups(regenPickups, regenImgs);
+    }
+
+    void Pickups(int pickups, Image[] pickupImages)
+    {
+        if (pickups > maxPickups)
+            pickups = maxPickups;
+
+        for (int i = 0; i < pickupImages.Length; i++)
+        {
+            if (i < pickups)
+            {
+                pickupImages[i].enabled = true;
+            }
+            else
+            {
+                pickupImages[i].enabled = false;
+            }
+        }
     }
 
     void HealthPickups()
@@ -72,17 +96,17 @@ public class PickupUI : MonoBehaviour
 
     public void UpdatePickups(int pickupID)
     { 
-        // 0 for health, 1 for speed, 2 for attack
+        // 0 for health, 1 for speed, 2 for attack, 3 for regen
         if (pickupID == 0) {
             healthPickups++;
         } else if (pickupID == 1) {
             speedPickups++;
         } else if (pickupID == 2) {
             attackPickups++;
+        } else if (pickupID == 3) {
+            regenPickups++;
         }
 
-        HealthPickups();
-        SpeedPickups();
-        AttackPickups();
+        AllPickups();
     }
 }
