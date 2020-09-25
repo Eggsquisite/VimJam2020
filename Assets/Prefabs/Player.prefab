@@ -133,7 +133,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -235,6 +235,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthbar: {fileID: 0}
   pickupUI: {fileID: 0}
+  deathSFX: {fileID: 8300000, guid: 59501e387e6df8843a0fd62a9f6a0db8, type: 3}
+  attackSFX: {fileID: 8300000, guid: 90ddac89959c30f4aab5a435f5b706a6, type: 3}
+  hurtSFX: {fileID: 8300000, guid: 59501e387e6df8843a0fd62a9f6a0db8, type: 3}
+  eatSFX: {fileID: 8300000, guid: e1a82d6e1f2b2ed4583096e6e5fb7395, type: 3}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -246,7 +250,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   healthDecayValue: 0.25
-  healthRegenValue: 0.25
+  healthRegenValue: 0
   deathMaxTime: 4
   bonusMoveSpeed: 0
   attackSpeedMult: 0

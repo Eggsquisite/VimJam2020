@@ -197,3 +197,4 @@ MonoBehaviour:
   damageValue: 15
   minMoveSpeed: 0.5
   maxMoveSpeed: 1
+  deathSFX: {fileID: 8300000, guid: 7ac390b42dd7b9243b251f9f8178838e, type: 3}

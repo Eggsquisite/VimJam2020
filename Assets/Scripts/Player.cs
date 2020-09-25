@@ -8,8 +8,15 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     private Collider2D coll;
+    private AudioSource audioSource;
     public Healthbar healthbar;
     public PickupUI pickupUI;
+
+    [Header("SFX")]
+    public AudioClip deathSFX;
+    public AudioClip attackSFX;
+    public AudioClip hurtSFX;
+    public AudioClip eatSFX;
 
     [Header("Combat")]
     public LayerMask enemyLayer;
@@ -56,6 +63,7 @@ public class Player : MonoBehaviour
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         if (anim == null) anim = GetComponent<Animator>();
         if (coll == null) coll = GetComponent<Collider2D>();
+        if (audioSource == null) audioSource = Camera.main.GetComponent<AudioSource>();
 
         currentHealth = maxHealth;
         oldPos = transform.position.x;
@@ -175,6 +183,11 @@ public class Player : MonoBehaviour
             anim.SetBool("enemyInSight", false);
     }
 
+    private void AttackSound()
+    {
+        audioSource.PlayOneShot(attackSFX);
+    }
+
     private void AttackFinished()
     {
         attackReady = true;
@@ -272,6 +285,7 @@ public class Player : MonoBehaviour
 
     public void PickupBonus(float moveSpeed, float attackSpeed, float health, int ID)
     {
+        audioSource.PlayOneShot(eatSFX);
         if (ID == 0)
             healthPickups++;
         else if (ID == 1)
@@ -315,7 +329,12 @@ public class Player : MonoBehaviour
         if (invincible)
             return;
 
-        invincible = true;
+        if (hitByEnemy)
+        {
+            invincible = true;
+            audioSource.PlayOneShot(hurtSFX);
+        }
+
         currentHealth -= dmg;
         if (currentHealth <= 6)
             Death();
@@ -333,6 +352,7 @@ public class Player : MonoBehaviour
         coll.enabled = false;
         anim.ResetTrigger("dead");
         anim.SetTrigger("dead");
+        audioSource.PlayOneShot(deathSFX);
     }
 
     private void DeathReset()

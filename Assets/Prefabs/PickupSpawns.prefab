@@ -171,8 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ba91087f013f143832c9c002ebc3d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpawnTime: 4
-  maxSpawnTime: 6
+  minSpawnTime: 6
+  maxSpawnTime: 8
   bubbles: {fileID: 5152215649666434632, guid: 4463b9b2c416fcb44b93eb36e0d7e92a, type: 3}
   pickupLocations:
   - {fileID: 3617987358525302656}

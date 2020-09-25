@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     public Vector2 destination;
     private Animator anim;
     private Rigidbody2D rb;
+    private AudioSource audioSource;
 
     [Header("Combat")]
     public LayerMask player;
@@ -28,6 +29,9 @@ public class Enemy : MonoBehaviour
     public float minMoveSpeed, maxMoveSpeed;
     private float moveSpeed;
 
+    [Header("SFX")]
+    public AudioClip deathSFX;
+
     private void OnEnable()
     {
         End.OnEnd += Die;
@@ -43,6 +47,7 @@ public class Enemy : MonoBehaviour
     {
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         if (anim == null) anim = GetComponent<Animator>();
+        if (audioSource == null) audioSource = Camera.main.GetComponent<AudioSource>();
 
         moveSpeed = Random.Range(minMoveSpeed, maxMoveSpeed);
         currentHealth = maxHealth;
@@ -141,8 +146,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        // play death sound
-        // play death anim
+        audioSource.PlayOneShot(deathSFX);
         Destroy(gameObject);
     }
 

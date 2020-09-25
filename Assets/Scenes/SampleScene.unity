@@ -1807,10 +1807,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6671905520685124058, guid: c78383fc9078ecb4c9ec3f3639f5240c, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 6671905520685124059, guid: c78383fc9078ecb4c9ec3f3639f5240c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.14
@@ -1927,6 +1923,14 @@ PrefabInstance:
     - target: {fileID: 6942748114565544397, guid: f23ea460871b3a04db61231dd655b774, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6942748114565544398, guid: f23ea460871b3a04db61231dd655b774, type: 3}
+      propertyPath: m_Offset.y
+      value: -1.8060365
+      objectReference: {fileID: 0}
+    - target: {fileID: 6942748114565544398, guid: f23ea460871b3a04db61231dd655b774, type: 3}
+      propertyPath: m_Radius
+      value: 4.1886325
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f23ea460871b3a04db61231dd655b774, type: 3}
