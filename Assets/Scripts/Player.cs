@@ -114,7 +114,7 @@ public class Player : MonoBehaviour
 
     IEnumerator HealthRegen(float regen)
     {
-        TakeDamage(regen, false);
+        TakeDamage(regen - attackSpeedMult, false);
         yield return new WaitForSeconds(0.1f);
         regenHealth = false;
     }
@@ -262,7 +262,7 @@ public class Player : MonoBehaviour
             attackSpeedMult += attackSpeed;
         }
 
-        anim.SetFloat("attackSpeed", attackSpeedMult);
+        //anim.SetFloat("attackSpeed", attackSpeedMult);
         pickupUI.UpdatePickups(ID);
     }
 

@@ -249,4 +249,5 @@ MonoBehaviour:
   healthRegenValue: 0.5
   deathMaxTime: 4
   bonusMoveSpeed: 0
-  attackSpeedMult: 1
+  attackSpeedMult: 0
+  maxPickups: 7
