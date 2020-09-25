@@ -44,8 +44,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.19197494, y: -0.5601136}
-  m_Size: {x: 0.8839499, y: 0.8839499}
+  m_Offset: {x: -0.19197494, y: -0.4362895}
+  m_Size: {x: 0.8839499, y: 0.9193274}
   m_Direction: 0
 --- !u!1 &6671905519911992094
 GameObject:
@@ -234,6 +234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthbar: {fileID: 0}
+  pickupUI: {fileID: 0}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 512

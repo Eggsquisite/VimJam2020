@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     private Animator anim;
     private Collider2D coll;
     public Healthbar healthbar;
+    public PickupUI pickupUI;
 
     [Header("Combat")]
     public LayerMask enemyLayer;
@@ -246,6 +247,7 @@ public class Player : MonoBehaviour
         currentHealth += health;
 
         anim.SetFloat("attackSpeed", attackSpeedMult);
+        pickupUI.UpdatePickups(ID);
     }
 
     private void AttackStatus(int status)
