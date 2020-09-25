@@ -209,7 +209,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1c28af2992098a043851fb5874576631, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -393,7 +393,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 873c662d2661b9d469a84481355e6dd7, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1920,13 +1920,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fireplace
       objectReference: {fileID: 0}
+    - target: {fileID: 6942748114565544396, guid: f23ea460871b3a04db61231dd655b774, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -4469646849258768430, guid: 3ca788e7c4039914691fba6f986fd7f0, type: 3}
     - target: {fileID: 6942748114565544397, guid: f23ea460871b3a04db61231dd655b774, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6942748114565544397, guid: f23ea460871b3a04db61231dd655b774, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.14
+      value: -4.09
       objectReference: {fileID: 0}
     - target: {fileID: 6942748114565544397, guid: f23ea460871b3a04db61231dd655b774, type: 3}
       propertyPath: m_LocalPosition.z
