@@ -189,7 +189,7 @@ MonoBehaviour:
   destination: {x: 0, y: 0}
   player:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 16640
   attackRadius: 1
   checkDistance: 1
   attackCooldown: 1

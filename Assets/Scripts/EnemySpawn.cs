@@ -10,10 +10,21 @@ public class EnemySpawn : MonoBehaviour
     public float decreaseSpawnTime; 
     public float decreaseFreq;
     private float spawnTimer, spawnTime;
+    private bool endGame;
 
     [Header("Pickup Lists")]
     public List<GameObject> enemy;
     public List<Transform> pickupLocations;
+
+    private void OnEnable()
+    {
+        End.OnEnd += StopSpawn;
+    }
+
+    private void OnDisable()
+    {
+        End.OnEnd += StopSpawn;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +39,9 @@ public class EnemySpawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (endGame)
+            return; 
+
         if (spawnTimer < spawnTime)
             spawnTimer += Time.deltaTime;
         else if (spawnTimer >= spawnTime)
@@ -40,7 +54,6 @@ public class EnemySpawn : MonoBehaviour
 
     void DecreaseSpawnTime()
     {
-        Debug.Log("Increasing enemy spawn frequency");
         minSpawnTime -= decreaseSpawnTime;
         maxSpawnTime -= decreaseSpawnTime;
 
@@ -61,5 +74,10 @@ public class EnemySpawn : MonoBehaviour
         int tempDest = Random.Range(0, pickupLocations.Count);
         int tempEnemy = Random.Range(0, enemy.Count);
         Instantiate(enemy[tempEnemy], pickupLocations[tempDest].position, Quaternion.identity);
+    }
+
+    void StopSpawn()
+    {
+        endGame = true;
     }
 }

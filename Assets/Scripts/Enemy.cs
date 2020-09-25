@@ -28,6 +28,16 @@ public class Enemy : MonoBehaviour
     public float minMoveSpeed, maxMoveSpeed;
     private float moveSpeed;
 
+    private void OnEnable()
+    {
+        End.OnEnd += Die;
+    }
+
+    private void OnDisable()
+    {
+        End.OnEnd -= Die;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -106,10 +116,19 @@ public class Enemy : MonoBehaviour
 
     private void Attacking()
     {
-        Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, player);
+        Collider2D[] hit = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, player);
 
-        foreach (Collider2D player in hitPlayer)
+        foreach (Collider2D player in hit)
+        {
+            if (player.tag == "EndGoal")
+            {
+                if (player.GetComponent<End>() != null)
+                    player.GetComponent<End>().EndGame();
+                return;
+            }
+
             player.GetComponent<Player>().TakeDamage(damageValue, true);
+        }
 
         Invoke("AttackCooldown", attackCooldown);
     }

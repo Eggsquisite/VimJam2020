@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     private float oldPos;
     private bool waypointSet, stopMovement, facingRight = true;
     public float moveSpeed;
+    private bool endGame;
 
     [Header("Health Management")]
     public float maxHealth;
@@ -39,6 +40,16 @@ public class Player : MonoBehaviour
     public float maxPickups;
     private int healthPickups, speedPickups, attackPickups;
 
+    private void OnEnable()
+    {
+        End.OnEnd += EndGame;
+    }
+
+    private void OnDisable()
+    {
+        End.OnEnd -= EndGame;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +64,9 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (endGame)
+            return;
+
         UpdateHealth();
         if (dead) {
             Resurrecting();
@@ -286,13 +300,7 @@ public class Player : MonoBehaviour
     {
         currentHealth -= dmg;
         if (currentHealth <= 6)
-        {
-            StopMovement();
-            stopMovement = true;
-            coll.enabled = false;
-            anim.ResetTrigger("dead");
-            anim.SetTrigger("dead");
-        }
+            Death();
         else if (currentHealth > 6 && hitByEnemy)
         {
             anim.ResetTrigger("hit");
@@ -302,7 +310,24 @@ public class Player : MonoBehaviour
 
     private void Death()
     {
+        StopMovement();
+        stopMovement = true;
+        coll.enabled = false;
+        anim.ResetTrigger("dead");
+        anim.SetTrigger("dead");
+    }
+
+    private void DeathReset()
+    {
         dead = true;
+    }
+
+    private void EndGame()
+    {
+        Death();
+        endGame = true;
+        //anim.ResetTrigger("dead");
+        anim.SetBool("endGame", true);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

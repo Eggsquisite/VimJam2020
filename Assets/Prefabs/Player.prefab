@@ -246,7 +246,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   healthDecayValue: 0.25
-  healthRegenValue: 0.5
+  healthRegenValue: 0.25
   deathMaxTime: 4
   bonusMoveSpeed: 0
   attackSpeedMult: 0
