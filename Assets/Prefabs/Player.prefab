@@ -245,14 +245,14 @@ MonoBehaviour:
     m_Bits: 512
   attackPoint: {fileID: 6671905519911992095}
   checkDistance: 0.8
-  attackCooldown: 2.25
+  attackCooldown: 1.75
   attackRadius: 0.75
   moveSpeed: 2.5
   maxHealth: 200
   currentHealth: 0
-  healthDecayValue: 2.5
-  healthRegenMult: 0.01
-  deathMaxTime: 4
+  healthDecayValue: 2.25
+  healthRegenMult: 0.005
+  deathMaxTime: 3
   bonusMoveSpeed: 0
   attackSpeedMult: 1
   bonusRegen: 0

@@ -107,7 +107,7 @@ public class Player : MonoBehaviour
         if (currentHealth < maxHealth && !regenHealth)
         {
             regenHealth = true;
-            StartCoroutine(HealthRegen(deathMaxTime / 100));
+            StartCoroutine(HealthRegen((deathMaxTime + 1) / 100));
         }
 
         if (deathTimer < deathMaxTime)
@@ -150,14 +150,14 @@ public class Player : MonoBehaviour
     IEnumerator HealthDecay(float decay)
     {
         TakeDamage(decay, false);
-        yield return new WaitForSeconds(.15f);
+        yield return new WaitForSeconds(.1f);
         decayHealth = false;
     }
 
     IEnumerator HealthRegen(float multiplier)
     {
         Heal(multiplier);
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.1f);
         regenHealth = false;
     }
 

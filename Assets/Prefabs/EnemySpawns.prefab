@@ -107,11 +107,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd2f360900a6ca74689c187ef32dd1e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpawnTime: 10
-  maxSpawnTime: 12
-  decreaseSpawnTime: 1.5
+  minSpawnTime: 7
+  maxSpawnTime: 9
+  decreaseSpawnTime: 2
   addedSpeed: 0.5
-  upgradeFreq: 15
+  upgradeFreq: 30
   enemy:
   - {fileID: 8726475222791209061, guid: e874310e07290ee40b9651632fb71a79, type: 3}
   pickupLocations:

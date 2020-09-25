@@ -12,7 +12,7 @@ public class EnemySpawn : MonoBehaviour
     public float upgradeFreq;
     private float spawnTimer, spawnTime;
     private bool endGame;
-    private float speedBase = 0;
+    private int maxUpgradeLimit = 5, numOfUpgrades;
 
     [Header("Pickup Lists")]
     public List<GameObject> enemy;
@@ -56,15 +56,18 @@ public class EnemySpawn : MonoBehaviour
 
     void DecreaseSpawnTime()
     {
+        numOfUpgrades++;
+        if (numOfUpgrades >= maxUpgradeLimit)
+            return;
+
         minSpawnTime -= decreaseSpawnTime;
         maxSpawnTime -= decreaseSpawnTime;
-        speedBase += addedSpeed;
 
-        if (minSpawnTime <= 0)
+        if (minSpawnTime < 1f)
             minSpawnTime = 1f;
 
-        if (maxSpawnTime <= 1f)
-            maxSpawnTime = 2f;
+        if (maxSpawnTime < 3f)
+            maxSpawnTime = 3f;
     }
 
     void ResetSpawnTime()

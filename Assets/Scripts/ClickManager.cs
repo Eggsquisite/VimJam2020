@@ -9,6 +9,11 @@ public class ClickManager : MonoBehaviour
     private GameObject clickedObject;
     private RaycastHit2D hit;
 
+    private void Awake()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+    }
+
     // Update is called once per frame
     void Update()
     {

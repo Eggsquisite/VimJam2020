@@ -9,8 +9,8 @@ public class EndUI : MonoBehaviour
     public Text secondsSurvived;
 
     private float timer = 0.0f;
-    private int seconds;
-    private bool gameEnd;
+    private string niceTime;
+    private bool gameEnd = false;
 
     private void OnEnable()
     {
@@ -28,8 +28,9 @@ public class EndUI : MonoBehaviour
     {
         if (!gameEnd)
         {
-            timer += Time.deltaTime;
-            seconds = (int)timer % 60;
+            int minutes = Mathf.FloorToInt(Time.time / 60F);
+            int seconds = Mathf.FloorToInt(Time.time - minutes * 60);
+            niceTime = string.Format("{0:0}:{1:00}", minutes, seconds);
         }
     }
 
@@ -37,6 +38,6 @@ public class EndUI : MonoBehaviour
     {
         gameEnd = true;
         endUI.SetActive(true);
-        secondsSurvived.text = seconds.ToString();
+        secondsSurvived.text = niceTime;
     }
 }
