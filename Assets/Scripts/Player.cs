@@ -238,7 +238,7 @@ public class Player : MonoBehaviour
         currentWaypoint = newWaypoint;
     }
 
-    public void PickupBonus(float moveSpeed, float attackSpeed, float health)
+    public void PickupBonus(float moveSpeed, float attackSpeed, float health, int ID)
     {
         bonusMoveSpeed += moveSpeed;
         attackSpeedMult += attackSpeed;
