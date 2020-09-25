@@ -6,7 +6,9 @@ public class Enemy : MonoBehaviour
 {
     [Header("Components")]
     public Transform attackPoint;
+    public Vector2 destination;
     private Animator anim;
+    private Rigidbody2D rb;
 
     [Header("Combat")]
     public LayerMask player;
@@ -23,11 +25,14 @@ public class Enemy : MonoBehaviour
 
     [Header("Movement")]
     private float oldPos;
+    public float moveSpeed;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
         if (anim == null) anim = GetComponent<Animator>();
+
         currentHealth = maxHealth;
         oldPos = transform.position.x;
     }
@@ -37,6 +42,18 @@ public class Enemy : MonoBehaviour
     {
         Flip();
         CheckPlayer();
+    }
+
+    private void FixedUpdate()
+    {
+        if (!stopMovement)
+            Move();
+    }
+
+    private void Move()
+    {
+        var tmp = new Vector2(destination.x, transform.position.y);
+        rb.MovePosition(Vector2.MoveTowards(transform.position, tmp, moveSpeed * Time.deltaTime));
     }
 
     private void Flip()
@@ -82,6 +99,7 @@ public class Enemy : MonoBehaviour
     void AttackCooldown()
     {
         attackReady = true;
+        stopMovement = false;
     }
 
     private void Attacking()

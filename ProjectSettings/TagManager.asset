@@ -21,7 +21,7 @@ TagManager:
   - Pickup
   - Waypoint
   - Base
-  - 
+  - PlayerFeet
   - 
   - 
   - 
@@ -43,4 +43,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Props
+    uniqueID: 74140339
+    locked: 0
+  - name: Player
+    uniqueID: 4066686815
     locked: 0
