@@ -194,5 +194,6 @@ MonoBehaviour:
   checkDistance: 1
   attackCooldown: 1
   maxHealth: 150
-  damageValue: 20
-  moveSpeed: 1
+  damageValue: 15
+  minMoveSpeed: 0.5
+  maxMoveSpeed: 1

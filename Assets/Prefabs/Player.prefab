@@ -239,13 +239,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   attackPoint: {fileID: 6671905519911992095}
-  checkDistance: 0.75
+  checkDistance: 0.8
   attackCooldown: 2.5
   attackRadius: 1
   moveSpeed: 2
   maxHealth: 100
   currentHealth: 0
-  healthDecayValue: 0.5
+  healthDecayValue: 0.25
   healthRegenValue: 0.5
   deathMaxTime: 4
   bonusMoveSpeed: 0

@@ -25,7 +25,8 @@ public class Enemy : MonoBehaviour
 
     [Header("Movement")]
     private float oldPos;
-    public float moveSpeed;
+    public float minMoveSpeed, maxMoveSpeed;
+    private float moveSpeed;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +34,7 @@ public class Enemy : MonoBehaviour
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         if (anim == null) anim = GetComponent<Animator>();
 
+        moveSpeed = Random.Range(minMoveSpeed, maxMoveSpeed);
         currentHealth = maxHealth;
         oldPos = transform.position.x;
     }
