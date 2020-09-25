@@ -45,8 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd2f360900a6ca74689c187ef32dd1e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpawnTime: 3
-  maxSpawnTime: 5
+  minSpawnTime: 4
+  maxSpawnTime: 6
+  decreaseSpawnTime: 0.5
+  decreaseFreq: 30
   enemy:
   - {fileID: 8726475222791209061, guid: e874310e07290ee40b9651632fb71a79, type: 3}
   pickupLocations:
@@ -76,7 +78,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4662662917675908797}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.36, y: -4.06, z: 0}
+  m_LocalPosition: {x: -19.21, y: -4.06, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4662662917457216643}
@@ -106,7 +108,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4662662918529325770}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.35, y: -4.06, z: 0}
+  m_LocalPosition: {x: 18.02, y: -4.06, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4662662917457216643}

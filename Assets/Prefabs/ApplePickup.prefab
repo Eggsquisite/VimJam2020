@@ -114,5 +114,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bonusMoveSpeed: 0
   bonusAttackSpeed: 0
-  bonusHealth: 2
+  bonusHealth: 10
   pickupID: 0

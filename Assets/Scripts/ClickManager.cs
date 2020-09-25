@@ -22,7 +22,7 @@ public class ClickManager : MonoBehaviour
             if (hit.collider != null)
             {
                 //Debug.Log("hit: " + hit.collider.name);
-                if (hit.collider.tag == "Waypoint")
+                if (hit.collider.tag == "Waypoint" || hit.collider.tag == "Enemy")
                 {
                     //if (clickedObject != null)
                         //clickedObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);

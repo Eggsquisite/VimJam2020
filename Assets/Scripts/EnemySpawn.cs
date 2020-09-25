@@ -5,7 +5,10 @@ using UnityEngine;
 public class EnemySpawn : MonoBehaviour
 {
     [Header("Spawn Frequency")]
-    public float minSpawnTime, maxSpawnTime;
+    public float minSpawnTime;
+    public float maxSpawnTime;
+    public float decreaseSpawnTime; 
+    public float decreaseFreq;
     private float spawnTimer, spawnTime;
 
     [Header("Pickup Lists")]
@@ -15,6 +18,10 @@ public class EnemySpawn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        InvokeRepeating("DecreaseSpawnTime", 0f, decreaseFreq);
+        minSpawnTime += decreaseSpawnTime;
+        maxSpawnTime += decreaseSpawnTime;
+
         ResetSpawnTime();
     }
 
@@ -29,6 +36,19 @@ public class EnemySpawn : MonoBehaviour
             SpawnEnemy();
             ResetSpawnTime();
         }
+    }
+
+    void DecreaseSpawnTime()
+    {
+        Debug.Log("Increasing enemy spawn frequency");
+        minSpawnTime -= decreaseSpawnTime;
+        maxSpawnTime -= decreaseSpawnTime;
+
+        if (minSpawnTime <= 0)
+            minSpawnTime = 1f;
+
+        if (maxSpawnTime <= 1f)
+            maxSpawnTime = 2f;
     }
 
     void ResetSpawnTime()

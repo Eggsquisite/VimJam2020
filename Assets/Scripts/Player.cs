@@ -36,6 +36,8 @@ public class Player : MonoBehaviour
     [Header("Adjustable Stats")]
     public float bonusMoveSpeed;
     public float attackSpeedMult;
+    public float maxPickups;
+    private int healthPickups, speedPickups, attackPickups;
 
     // Start is called before the first frame update
     void Start()
@@ -181,8 +183,6 @@ public class Player : MonoBehaviour
 
     void MoveToWaypoint()
     {
-        if (stopMovement) 
-            return;
 
         if (currentWaypoint != null && waypointSet)
         {
@@ -190,6 +190,9 @@ public class Player : MonoBehaviour
             setWaypoint = currentWaypoint.transform.position;
             currentWaypoint = null;
         }
+
+        if (stopMovement) 
+            return;
 
         if (setWaypoint != Vector3.zero)
         {
@@ -229,7 +232,7 @@ public class Player : MonoBehaviour
 
     void StopMovement()
     {
-        setWaypoint = Vector3.zero;
+        //setWaypoint = Vector3.zero;
         anim.SetFloat("movement", 0f);
     }
 
@@ -241,10 +244,23 @@ public class Player : MonoBehaviour
 
     public void PickupBonus(float moveSpeed, float attackSpeed, float health, int ID)
     {
-        bonusMoveSpeed += moveSpeed;
-        attackSpeedMult += attackSpeed;
-        maxHealth += health;
-        currentHealth += health;
+        if (ID == 0)
+            healthPickups++;
+        else if (ID == 1)
+            speedPickups++;
+        else if (ID == 2)
+            attackPickups++;
+
+        if (healthPickups <= maxPickups) {
+            maxHealth += health;
+            currentHealth += health;
+        }
+        if (speedPickups <= maxPickups) {
+            bonusMoveSpeed += moveSpeed;
+        }
+        if (attackPickups <= maxPickups) { 
+            attackSpeedMult += attackSpeed;
+        }
 
         anim.SetFloat("attackSpeed", attackSpeedMult);
         pickupUI.UpdatePickups(ID);
