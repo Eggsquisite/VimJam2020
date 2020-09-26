@@ -393,7 +393,7 @@ public class Player : MonoBehaviour
     private void MoonshinePickup()
     {
         // has references to Enemy.cs
-        DestroyAll();
+        DestroyAll?.Invoke();
         audioSource.PlayOneShot(explosionSFX);
     }
 

@@ -17,6 +17,6 @@ public class End : MonoBehaviour
 
         // has functions from Player.cs, EndUI.cs, Enemy.cs, PickupSpawn.cs
         if (stage >= 4)
-            OnEnd();
+            OnEnd?.Invoke();
     }
 }
