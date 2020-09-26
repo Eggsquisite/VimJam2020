@@ -99,7 +99,7 @@ MonoBehaviour:
   bonusMoveSpeed: 0
   bonusHealth: 0
   bonusAttackSpeed: 0
-  bonusRegen: 0.001
+  bonusRegen: 0.002
   pickupID: 3
 --- !u!58 &2052925531402979842
 CircleCollider2D:

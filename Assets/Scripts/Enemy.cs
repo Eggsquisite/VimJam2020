@@ -145,7 +145,7 @@ public class Enemy : MonoBehaviour
 
     public void UpdateSpeed(float newVal)
     {
-        minMoveSpeed += newVal;
+        //minMoveSpeed += newVal;
         maxMoveSpeed += newVal;
         moveSpeed = Random.Range(minMoveSpeed, maxMoveSpeed);
     }

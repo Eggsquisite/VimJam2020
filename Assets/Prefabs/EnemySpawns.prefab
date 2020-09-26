@@ -111,7 +111,7 @@ MonoBehaviour:
   maxSpawnTime: 9
   decreaseSpawnTime: 2
   addedSpeed: 0.5
-  upgradeFreq: 30
+  upgradeFreq: 5
   enemy:
   - {fileID: 8726475222791209061, guid: e874310e07290ee40b9651632fb71a79, type: 3}
   pickupLocations:

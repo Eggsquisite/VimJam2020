@@ -1567,10 +1567,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 601272607}
-    - target: {fileID: 1740824649, guid: 20769b1808eb869499a25598ed7befca, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1278338971950891692, guid: 20769b1808eb869499a25598ed7befca, type: 3}
       propertyPath: m_Camera
       value: 
@@ -1977,14 +1973,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 280033353, guid: f23ea460871b3a04db61231dd655b774, type: 3}
-      propertyPath: m_Intensity
-      value: 1.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 280033353, guid: f23ea460871b3a04db61231dd655b774, type: 3}
-      propertyPath: m_PointLightInnerRadius
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 6942748114565544394, guid: f23ea460871b3a04db61231dd655b774, type: 3}
       propertyPath: m_Name
       value: Fireplace
