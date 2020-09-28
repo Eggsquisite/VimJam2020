@@ -246,7 +246,7 @@ MonoBehaviour:
   attackPoint: {fileID: 6671905519911992095}
   checkDistance: 0.8
   attackCooldown: 1.75
-  attackRadius: 0.75
+  attackRadius: 1
   moveSpeed: 2.5
   maxHealth: 200
   currentHealth: 0
