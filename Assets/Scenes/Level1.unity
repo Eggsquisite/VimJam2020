@@ -2077,6 +2077,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 280033353, guid: f23ea460871b3a04db61231dd655b774, type: 3}
+      propertyPath: m_Color.r
+      value: 0.6415094
+      objectReference: {fileID: 0}
+    - target: {fileID: 280033353, guid: f23ea460871b3a04db61231dd655b774, type: 3}
+      propertyPath: m_Color.g
+      value: 0.5234959
+      objectReference: {fileID: 0}
+    - target: {fileID: 280033353, guid: f23ea460871b3a04db61231dd655b774, type: 3}
+      propertyPath: m_Color.b
+      value: 0.5234959
+      objectReference: {fileID: 0}
     - target: {fileID: 6942748114565544394, guid: f23ea460871b3a04db61231dd655b774, type: 3}
       propertyPath: m_Name
       value: Fireplace
